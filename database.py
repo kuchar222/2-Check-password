@@ -33,6 +33,14 @@ class Database:
 
     @staticmethod
     def create_database(passwords):
+        """tworzy bazę składającą się z haseł klasy Password
+
+        Args:
+            passwords (list): lista z hasłami z pliku
+
+        Returns:
+            list: objekty klasy Password
+        """
         database = []
         for password in passwords:
             database.append(Password(password))
