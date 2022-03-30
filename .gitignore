@@ -1,4 +1,5 @@
-/.pytest_cache
-/.vscode
-/test_main.py
-/__pycache__
+.pytest_cache
+.vscode
+__pycache__
+*.txt
+*_test.py
