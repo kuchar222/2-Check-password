@@ -1,15 +1,12 @@
 """moduł hasła
-
-Returns:
-    class: obiekt Password
 """
 
 from hashlib import sha1
 
 class Password:
-    """zawiera hasło i jego hash
+    """klasa zawiera hasło i jego hash
     """
-    def __init__(self, password) -> None:
+    def __init__(self, password=str) -> None:
         self.password = password
         self.hash = self.create_hash(self.password)
 
@@ -26,4 +23,4 @@ class Password:
         return sha1(password.encode('utf-8')).hexdigest()
 
     def __str__(self) -> str:
-        return self.hash
+        return self.hash[:5]

@@ -17,7 +17,7 @@ class Database:
 
     @staticmethod
     def take_passwords_from_file(path):
-        """pobiera z pliku hasła
+        """pobiera hasła z pliku 
 
         Args:
             path (str): ścieżka do pliku z hasłami
@@ -39,7 +39,7 @@ class Database:
             passwords (list): lista z hasłami z pliku
 
         Returns:
-            list: objekty klasy Password
+            list: lista objektów klasy Password
         """
         database = []
         for password in passwords:
