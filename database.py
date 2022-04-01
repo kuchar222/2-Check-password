@@ -12,11 +12,10 @@ class Database:
             path (str, optional): ścieżka do pliku z hasłami. Defaults to str.
         """
         self.path = path
-        self.passwords = self.take_passwords_from_file(self.path)
-        self.database = self.create_database(self.passwords)
+        self.passwords = self.take_passwords_from_file()
+        self.database = self.create_database()
 
-    @staticmethod
-    def take_passwords_from_file(path):
+    def take_passwords_from_file(self):
         """pobiera hasła z pliku 
 
         Args:
@@ -26,13 +25,12 @@ class Database:
             list: lista haseł
         """
         passwords = []
-        with open(path, encoding='utf-8') as file:
+        with open(self.path, encoding='utf-8') as file:
             for password in file:
                 passwords.append(password.strip())
         return passwords
 
-    @staticmethod
-    def create_database(passwords):
+    def create_database(self):
         """tworzy bazę składającą się z haseł klasy Password
 
         Args:
@@ -42,6 +40,14 @@ class Database:
             list: lista objektów klasy Password
         """
         database = []
-        for password in passwords:
+        for password in self.passwords:
             database.append(Password(password))
         return database
+
+    def save_correct_passwords(self):
+        """zapisuje do nowego pliku tylko właściwe hasła
+        """
+        with open('correct_passwords.txt', 'w') as file:
+            for password in self.database:
+                if password.correct == True:
+                    file.write(str(password)+'\n')
