@@ -14,9 +14,12 @@ class Database:
         self.path = path
         self.passwords = self.take_passwords_from_file()
         self.database = self.create_database()
+        self.correct_database = self.create_correct_database()
+        self.number_passwords = len(self.passwords)
+        self.number_correct_passwords = len(self.correct_database)
 
     def take_passwords_from_file(self):
-        """pobiera hasła z pliku 
+        """pobiera hasła z pliku
 
         Args:
             path (str): ścieżka do pliku z hasłami
@@ -44,10 +47,36 @@ class Database:
             database.append(Password(password))
         return database
 
+    def create_correct_database(self):
+        """tworzy bazę właściwych haseł
+
+        Returns:
+            list: lista obiektów klasy Password tylko właściwych haseł
+        """
+        correct_database =[]
+        for password in self.database:
+            if password.correct is True:
+                correct_database.append(password)
+        return correct_database
+
+    def report(self):
+        """wyświetla w terminalu informację o liczbie sprawdzonych haseł
+        """
+        print()
+        print('-'*22)
+        print(f'Sprawdzone hasła: {self.number_passwords}\n\
+            Bezpieczne hasła: {self.number_correct_passwords}')
+        print('-'*22)
+
     def save_correct_passwords(self):
         """zapisuje do nowego pliku tylko właściwe hasła
         """
-        with open('correct_passwords.txt', 'w') as file:
-            for password in self.database:
-                if password.correct == True:
+        print()
+        try:
+            with open('correct_passwords.txt', 'w', encoding='utf-8') as file:
+                for password in self.correct_database:
                     file.write(str(password)+'\n')
+            print('Bezpieczne hasła zapisano do pliku: <correct_passwords.txt>')
+        except:
+            print('!!! Nie udało się zapisać haseł do pliku !!!')
+        print()

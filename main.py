@@ -1,4 +1,6 @@
 from database import Database
 
-data = Database('passwords.txt')
+path = 'passwords.txt'
+data = Database(path)
+data.report()
 data.save_correct_passwords()

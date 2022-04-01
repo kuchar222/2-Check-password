@@ -1,3 +1,3 @@
 # testowanie haseł
 
-Skrypt sprawdza czy hasła wypłynęły
+Skrypt sprawdza czy hasła są bezpieczne (czy są wystarczająco mocne i czy wypłynęły)
