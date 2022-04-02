@@ -27,11 +27,8 @@ class Database:
         Returns:
             list: lista haseł
         """
-        passwords = []
         with open(self.path, encoding='utf-8') as file:
-            for password in file:
-                passwords.append(password.strip())
-        return passwords
+            return [password.strip() for password in file]
 
     def create_database(self):
         """tworzy bazę składającą się z haseł klasy Password
@@ -42,22 +39,15 @@ class Database:
         Returns:
             list: lista objektów klasy Password
         """
-        database = []
-        for password in self.passwords:
-            database.append(Password(password))
-        return database
+        return [Password(password) for password in self.passwords]
 
     def create_correct_database(self):
-        """tworzy bazę właściwych haseł
+        """tworzy bazę bezpiecznych haseł
 
         Returns:
-            list: lista obiektów klasy Password tylko właściwych haseł
+            list: lista obiektów klasy Password tylko bezpiecznych haseł
         """
-        correct_database =[]
-        for password in self.database:
-            if password.correct is True:
-                correct_database.append(password)
-        return correct_database
+        return [password for password in self.database if password.correct is True]
 
     def report(self):
         """wyświetla w terminalu informację o liczbie sprawdzonych haseł
@@ -71,6 +61,7 @@ class Database:
     def save_correct_passwords(self):
         """zapisuje do nowego pliku tylko właściwe hasła
         """
+        # pylint: disable=bare-except
         correct_file = 'correct_passwords.txt'
         print()
         if self.number_correct_passwords:

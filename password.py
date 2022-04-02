@@ -12,14 +12,7 @@ class Password:
     def __init__(self, password=str) -> None:
         self.password = password
         self.hash = self.create_hash()
-        #  sprawdzanie poprawności hasła
-        if self.check_password_lenght():
-            if self.check_password_strongness():
-                self.correct = self.check_pawn()
-            else:
-                self.correct = False
-        else:
-            self.correct = False
+        self.correct = self.validate_password()
 
     def create_hash(self):
         """tworzy hash dla hasła według metody SHA-1
@@ -50,15 +43,11 @@ class Password:
         Returns:
             bool: True jeżeli hasło jest silne
         """
-        digits = re.compile(r'[0-9]')
-        alpha_up = re.compile(r'[A-Z]')
-        alpha_low= re.compile(r'[a-z]')
-        special_signs = re.compile(r'[^0-9a-zA-Z]')
         try:
-            digits.search(self.password).group()
-            alpha_up.search(self.password).group()
-            alpha_low.search(self.password).group()
-            special_signs.search(self.password).group()
+            re.compile(r'[0-9]').search(self.password).group()
+            re.compile(r'[A-Z]').search(self.password).group()
+            re.compile(r'[a-z]').search(self.password).group()
+            re.compile(r'[^0-9a-zA-Z]').search(self.password).group()
             return True
         except AttributeError:
             return False
@@ -70,7 +59,17 @@ class Password:
             bool: True jeżeli hasło nie wyciekło
         """
         url = 'https://api.pwnedpasswords.com/range/' + f'{self.hash[:5]}'
-        ans = requests.get(url).text.split()
-        req = [hash.partition(':')[0] for hash in ans]
-        #return True if self.hash[5:] not in req else False
-        return bool(self.hash[5:] not in req)
+        response = requests.get(url).text.split()
+        return bool(self.hash[5:] not in [hash.partition(':')[0] for hash in response])
+
+    def validate_password(self):
+        """sprawdza czy hasło jest Bezpieczne
+        (czy ma odpowiednią ilość znaków, liter i cyfr oraz czy nie wycziekło)
+
+        Returns:
+            bool: True jeżeli hasło jest Bezpieczne
+        """
+        if self.check_password_lenght():
+            if self.check_password_strongness():
+                return self.check_pawn()
+        return False
