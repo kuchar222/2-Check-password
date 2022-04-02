@@ -1,4 +1,4 @@
-"""zbiór haseł
+"""klasa zbioru haseł
 """
 from password import Password
 
@@ -64,19 +64,23 @@ class Database:
         """
         print()
         print('-'*22)
-        print(f'Sprawdzone hasła: {self.number_passwords}\n\
-            Bezpieczne hasła: {self.number_correct_passwords}')
+        print(f'Sprawdzone hasła: {self.number_passwords}')
+        print(f'Bezpieczne hasła: {self.number_correct_passwords}')
         print('-'*22)
 
     def save_correct_passwords(self):
         """zapisuje do nowego pliku tylko właściwe hasła
         """
+        correct_file = 'correct_passwords.txt'
         print()
-        try:
-            with open('correct_passwords.txt', 'w', encoding='utf-8') as file:
-                for password in self.correct_database:
-                    file.write(str(password)+'\n')
-            print('Bezpieczne hasła zapisano do pliku: <correct_passwords.txt>')
-        except:
-            print('!!! Nie udało się zapisać haseł do pliku !!!')
+        if self.number_correct_passwords:
+            try:
+                with open(correct_file, 'w', encoding='utf-8') as file:
+                    for password in self.correct_database:
+                        file.write(str(password)+'\n')
+                print(f'Bezpieczne hasła zapisano do pliku: {correct_file}')
+            except:
+                print('!!! Nie udało się zapisać haseł do pliku !!!')
+        else:
+            print('Brak haseł do zapisania')
         print()

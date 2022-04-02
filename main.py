@@ -1,3 +1,5 @@
+"""Główny plik skryptu
+"""
 from database import Database
 
 path = 'passwords.txt'

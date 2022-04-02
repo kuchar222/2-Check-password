@@ -1,8 +1,9 @@
-"""moduł hasła
+"""klasa hasła, która sprawdza jego poprawność
 """
 
 from hashlib import sha1
 import requests
+import re
 
 class Password:
     """klasa zawiera hasło i jego hash oraz sprawdza poprawność i czy wyciekło
@@ -45,10 +46,24 @@ class Password:
             return False
 
     def check_password_strongness(self):
-        # TODO sprawdzić za pomocą Regex siłe hasła
-        # czy zawiera wielkie i małe litery, cyfry i znaki specjalne
-        # użyć check_password_lenght do sprawdzenia długości
-        return True
+        """sprawdza siłę hasła, czyli czy zawiera wielkie i małe litery
+        cyfry i znaki specjalne
+
+        Returns:
+            bool: True jeżeli hasło jest silne
+        """
+        digits = re.compile(r'[0-9]')
+        alpha_up = re.compile(r'[A-Z]')
+        alpha_low= re.compile(r'[a-z]')
+        special_signs = re.compile(r'[^0-9a-zA-Z]')
+        try:
+            digits.search(self.password).group()
+            alpha_up.search(self.password).group()
+            alpha_low.search(self.password).group()
+            special_signs.search(self.password).group()
+            return True
+        except AttributeError:
+            return False
 
     def check_pawn(self):
         """sprawdza czy hasło wyciekło
