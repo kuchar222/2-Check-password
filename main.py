@@ -2,7 +2,7 @@
 """
 from database import Database
 
-path = 'passwords.txt'
-data = Database(path)
+PATH = r'passwords.txt'
+data = Database(PATH)
 data.report()
 data.save_correct_passwords()

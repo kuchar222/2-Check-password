@@ -2,8 +2,9 @@
 """
 
 from hashlib import sha1
-import requests
 import re
+import requests
+
 
 class Password:
     """klasa zawiera hasło i jego hash oraz sprawdza poprawność i czy wyciekło
@@ -12,9 +13,9 @@ class Password:
         self.password = password
         self.hash = self.create_hash()
         #  sprawdzanie poprawności hasła
-        if self.check_password_lenght(): 
+        if self.check_password_lenght():
             if self.check_password_strongness():
-               self.correct = self.check_pawn()
+                self.correct = self.check_pawn()
             else:
                 self.correct = False
         else:
@@ -40,10 +41,7 @@ class Password:
         Returns:
             bool: True jeżeli hasło dłuższe równe 8 znaków
         """
-        if len(self.password) > 7:
-            return True
-        else:
-            return False
+        return bool(len(self.password) > 7)
 
     def check_password_strongness(self):
         """sprawdza siłę hasła, czyli czy zawiera wielkie i małe litery
@@ -74,7 +72,5 @@ class Password:
         url = 'https://api.pwnedpasswords.com/range/' + f'{self.hash[:5]}'
         ans = requests.get(url).text.split()
         req = [hash.partition(':')[0] for hash in ans]
-        if self.hash[5:] not in req:
-            return True
-        else:
-            return False
+        #return True if self.hash[5:] not in req else False
+        return bool(self.hash[5:] not in req)
